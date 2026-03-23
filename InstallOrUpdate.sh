@@ -29,6 +29,7 @@ if [[ -z "$AGENT_TRACKER_SOURCE_ROOT" && -z "$AGENT_TRACKER_BASE_URL" ]]; then
   AGENT_TRACKER_BASE_URL="https://raw.githubusercontent.com/${AGENT_TRACKER_OWNER}/${AGENT_TRACKER_REPO}/${AGENT_TRACKER_REF}"
 fi
 
+ENV_FILE="${TARGET_ROOT%/}/.env"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -53,6 +54,15 @@ MANAGED_FILES=(
   ".claude/skills/PRDToAgentTracking/SKILL.md:.claude/skills/PRDToAgentTracking/SKILL.md:644"
   "AgentTracker/prompt.md:AgentTracker/prompt.md:644"
   "AgentTracker/run-agent-loop-claude.sh:AgentTracker/run-agent-loop-claude.sh:755"
+)
+
+REQUIRED_ENV_SETTINGS=(
+  'ANTHROPIC_FOUNDRY_RESOURCE="REPLACE_WITH_YOUR_FOUNDRY_RESOURCE"'
+  'CLAUDE_CODE_USE_FOUNDRY="true"'
+  'ANTHROPIC_FOUNDRY_API_KEY="REPLACE_WITH_YOUR_FOUNDRY_API_KEY"'
+  'ANTHROPIC_DEFAULT_SONNET_MODEL="REPLACE_WITH_YOUR_SONNET_MODEL"'
+  'ANTHROPIC_DEFAULT_HAIKU_MODEL="REPLACE_WITH_YOUR_HAIKU_MODEL"'
+  'ANTHROPIC_DEFAULT_OPUS_MODEL="REPLACE_WITH_YOUR_OPUS_MODEL"'
 )
 
 require_command() {
@@ -97,6 +107,65 @@ stage_source_file() {
   fi
 
   download_file "${AGENT_TRACKER_BASE_URL%/}/${source_relative_path}" "$staged_file"
+}
+
+env_key_exists() {
+  local key="$1"
+
+  grep -Eq "^[[:space:]]*(export[[:space:]]+)?${key}[[:space:]]*=" "$ENV_FILE"
+}
+
+print_env_warning() {
+  local created_env_file="$1"
+  shift
+  local added_keys=("$@")
+  local key
+
+  echo >&2
+  echo >&2 "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo >&2 "!!! WARNING: AgentTracker added placeholder/default values to $ENV_FILE"
+  if [[ "$created_env_file" == "true" ]]; then
+    echo >&2 "!!! .env did not exist and had to be created."
+  fi
+  echo >&2 "!!! Replace these values before running AgentTracker:"
+  for key in "${added_keys[@]}"; do
+    echo >&2 "!!!   - $key"
+  done
+  echo >&2 "!!! run-agent-loop-claude.sh expects valid values for these settings."
+  echo >&2 "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo >&2
+}
+
+ensure_env_settings() {
+  local env_setting
+  local key
+  local created_env_file="false"
+  local missing_keys=()
+
+  if [[ ! -f "$ENV_FILE" ]]; then
+    : > "$ENV_FILE"
+    chmod 600 "$ENV_FILE"
+    created_env_file="true"
+    printf "%-10s %s\n" "created" ".env"
+  fi
+
+  for env_setting in "${REQUIRED_ENV_SETTINGS[@]}"; do
+    key="${env_setting%%=*}"
+    if ! env_key_exists "$key"; then
+      if [[ ${#missing_keys[@]} -eq 0 && -s "$ENV_FILE" ]]; then
+        printf '\n' >> "$ENV_FILE"
+      fi
+      if [[ ${#missing_keys[@]} -eq 0 ]]; then
+        printf '# AgentTracker required environment values\n' >> "$ENV_FILE"
+      fi
+      printf '%s\n' "$env_setting" >> "$ENV_FILE"
+      missing_keys+=("$key")
+    fi
+  done
+
+  if [[ ${#missing_keys[@]} -gt 0 ]]; then
+    print_env_warning "$created_env_file" "${missing_keys[@]}"
+  fi
 }
 
 resolve_playwright_cli() {
@@ -201,6 +270,7 @@ main() {
   done
 
   cleanup_legacy_review_skill
+  ensure_env_settings
   install_playwright_cli
   playwright_cli_bin="$(resolve_playwright_cli)"
   install_playwright_skills "$playwright_cli_bin"
