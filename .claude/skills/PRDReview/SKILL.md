@@ -1,9 +1,9 @@
 ---
-name: PRDReviewer
+name: PRDReview
 description: Reviews Product Requirements Documents (PRDs) for completeness and internal coherence that is understandable by a junior developer. Triggers on: review this prd, update the prd."
 ---
 
-# PRD Reviewer
+# PRD Review
 
 ## Purpose
 Review a PRD for best practices *specifically* for implementation by agentic coding tools (Claude Code, OpenAI Codex) and return:
