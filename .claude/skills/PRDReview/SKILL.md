@@ -9,6 +9,7 @@ description: Reviews Product Requirements Documents (PRDs) for completeness and 
 Review a PRD for best practices *specifically* for implementation by agentic coding tools (Claude Code, OpenAI Codex) and return:
 1) a structured review using the PRD Review Rubric, and
 2) a **menu of change options** the user can select to update the PRD.
+3) Continue to ask follow-up questions and provide additional change options until the PRD quality is satisfactory for a junior developer or AI agent.
 
 
 ## Output contract (must follow)
@@ -73,6 +74,13 @@ Your response MUST contain these sections in order:
 - Open questions explicitly listed (with owners if provided)
 
 ### H. User story complexity and size
+
+- User stories are small and specific enough to be completed in one AgentTracker iteration (one context window)
+- Avoid large, vague stories that cannot be completed in one iteration (e.g., "Build the entire dashboard" or "Add authentication") and instead break them down into smaller stories focused on specific features or components (e.g., "Add priority filter dropdown to task list header" or "Add priority field to tasks table with migration").
+
+### I. Functional requirements integrated with user stories
+- Each user story includes explicit functional requirements that are specific features or behaviors needed to implement the story, and these requirements are numbered for easy reference (e.g., "FR-1: Add priority dropdown to task edit modal" or "FR-2: Display current priority as selected").
+- Functional requirements should be unambiguous and directly tied to the user story they support, ensuring that the implementation details are clear and actionable for a developer or AI agent working on the story.
 
 **Each story must be completable in ONE AgentTracker iteration (one context window).**
 

@@ -129,7 +129,7 @@ Frontend stories are NOT complete until visually verified. AgentTracker will use
 2. **Functional requirements**: Integrated into user stories (no stand-alone functional requirements)
 2. **IDs**: Sequential (US-001, US-002, etc.)
 3. **Priority**: Based on dependency order, then document order
-4. **All stories**: `passes: false` and empty `notes`
+4. **All stories**: `passes: false` 
 5. **branchName**: Derive from feature name, kebab-case, prefixed with `AgentTracker/`
 6. **Always add**: "Typecheck, Lint and Tests pass" to every story's acceptance criteria
 

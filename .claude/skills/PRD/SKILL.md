@@ -53,6 +53,10 @@ Ask only critical questions where the initial prompt is ambiguous. Focus on:
 
 This lets users respond with "1A, 2C, 3B" for quick iteration.
 
+## Step 1 B-Z: Continue asking Clarifying Questions
+
+Continue asking follow-up questions (in the format specified for Step 1, for as many rounds as necessary) until you have an unambiguous understanding of the feature's purpose, functionality, scope, and success criteria. 
+
 ---
 
 ## Step 2: PRD Structure
@@ -83,18 +87,17 @@ Each story should be small enough to implement in one focused session.
 - [ ] Another criterion
 - [ ] Typecheck/lint/test pass
 - [ ] **[UI stories only]** Verify in browser using playwright-cli skill
+
+**Functional Requirements:**
+- FR-1: Specific functionality required for this story
+- FR-2: Another specific functionality for this story
+
 ```
 
 **Important:** 
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
 - **For any story with UI changes:** Always include "Verify in browser using playwright-cli skill" as acceptance criteria. This ensures visual verification of frontend work.
-
-### 4. Functional Requirements
-Numbered list of specific functionalities:
-- "FR-1: The system must allow users to..."
-- "FR-2: When a user clicks X, the system must..."
-
-Be explicit and unambiguous.
+- Functional requirements should be explicit and unambiguous and be specific features or behaviors needed to implement the story. They should be numbered for easy reference.
 
 ### 5. Non-Goals (Out of Scope)
 What this feature will NOT include. Critical for managing scope.
@@ -114,9 +117,6 @@ How will success be measured?
 - "Reduce time to complete X by 50%"
 - "Increase conversion rate by 10%"
 
-### 9. Open Questions
-Remaining questions or areas needing clarification.
-
 ---
 
 ## Writing for Junior Developers
@@ -128,6 +128,7 @@ The reader of the PRD will be a junior developer or AI agent. Therefore:
 - Provide detail to understand purpose and core logic
 - Number requirements for easy reference
 - Use concrete examples where helpful
+- Do NOT include a glossary or assume prior knowledge of the codebase. All terms should be defined within the PRD at the time they are used. The PRD should be self-contained and provide all necessary context for implementation.
 
 ---
 
@@ -165,6 +166,10 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Generate and run migration successfully
 - [ ] Typecheck passes
 
+**Functional Requirements:**
+- FR-1: Database schema updated with new priority field
+- FR-2: Default value set to 'medium' for existing and new tasks
+
 ### US-002: Display priority indicator on task cards
 **Description:** As a user, I want to see task priority at a glance so I know what needs attention first.
 
@@ -173,6 +178,10 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Priority visible without hovering or clicking
 - [ ] Typecheck passes
 - [ ] Verify in browser using playwright-cli skill
+
+**Functional Requirements:**
+- FR-1: Reuse existing badge component with color variants for priority
+- FR-2: Badge displayed prominently on task cards
 
 ### US-003: Add priority selector to task edit
 **Description:** As a user, I want to change a task's priority when editing it.
@@ -184,6 +193,11 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Typecheck passes
 - [ ] Verify in browser using playwright-cli skill
 
+**Functional Requirements:**
+- FR-1: Add priority dropdown to task edit modal
+- FR-2: Display current priority as selected
+- FR-3: Save priority immediately on selection change
+
 ### US-004: Filter tasks by priority
 **Description:** As a user, I want to filter the task list to see only high-priority items when I'm focused.
 
@@ -194,13 +208,11 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Typecheck passes
 - [ ] Verify in browser using playwright-cli skill
 
-## Functional Requirements
+**Functional Requirements:**
+- FR-1: Add priority filter dropdown to task list header
+- FR-2: Filter tasks based on selected priority
+- FR-3: Persist filter state in URL search params
 
-- FR-1: Add `priority` field to tasks table ('high' | 'medium' | 'low', default 'medium')
-- FR-2: Display colored priority badge on each task card
-- FR-3: Include priority selector in task edit modal
-- FR-4: Add priority filter dropdown to task list header
-- FR-5: Sort by priority within each status column (high to medium to low)
 
 ## Non-Goals
 
@@ -233,6 +245,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 Before saving the PRD:
 
 - [ ] Asked clarifying questions with lettered options
+- [ ] No un-answered questions or assumptions or ambiguities remain
 - [ ] Incorporated user's answers
 - [ ] User stories are small and specific
 - [ ] Functional requirements are numbered and unambiguous
