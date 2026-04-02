@@ -127,11 +127,11 @@ Frontend stories are NOT complete until visually verified. AgentTracker will use
 
 1. **Each user story becomes one JSON entry**
 2. **Functional requirements**: Integrated into user stories (no stand-alone functional requirements)
-2. **IDs**: Sequential (US-001, US-002, etc.)
-3. **Priority**: Based on dependency order, then document order
-4. **All stories**: `passes: false` 
-5. **branchName**: Derive from feature name, kebab-case, prefixed with `AgentTracker/`
-6. **Always add**: "Typecheck, Lint and Tests pass" to every story's acceptance criteria
+3. **IDs**: Sequential (US-001, US-002, etc.)
+4. **Priority**: Based on dependency order, then document order
+5. **All stories**: `passes: false` 
+6. **branchName**: Derive from feature name, kebab-case, prefixed with `AgentTracker/`
+7. **Always add**: "Typecheck, Lint and Tests pass" to every story's acceptance criteria. Or if there is a `make check-all` command in the repo, add "`make check-all` passes" instead.
 
 ---
 
@@ -183,7 +183,7 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')",
         "Generate and run migration successfully",
-        "Typecheck, Lint and Tests pass"
+        "`make check-all` passes"
       ],
       "priority": 1,
       "passes": false

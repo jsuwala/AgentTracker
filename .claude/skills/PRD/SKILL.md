@@ -85,7 +85,7 @@ Each story should be small enough to implement in one focused session.
 **Acceptance Criteria:**
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
-- [ ] Typecheck/lint/test pass
+- [ ] Typecheck/lint/test pass 
 - [ ] **[UI stories only]** Verify in browser using playwright-cli skill
 
 **Functional Requirements:**
@@ -164,7 +164,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 **Acceptance Criteria:**
 - [ ] Add priority column to tasks table: 'high' | 'medium' | 'low' (default 'medium')
 - [ ] Generate and run migration successfully
-- [ ] Typecheck passes
+- [ ] `make check-all` passes
 
 **Functional Requirements:**
 - FR-1: Database schema updated with new priority field
@@ -232,10 +232,6 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - High-priority tasks immediately visible at top of lists
 - No regression in task list performance
 
-## Open Questions
-
-- Should priority affect task ordering within a column?
-- Should we add keyboard shortcuts for priority changes?
 ```
 
 ---

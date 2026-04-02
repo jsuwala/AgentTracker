@@ -71,7 +71,6 @@ Your response MUST contain these sections in order:
 ### G. Risks & dependencies
 - External dependencies (teams, vendors, systems)
 - Known risks, mitigations, and decision log
-- Open questions explicitly listed (with owners if provided)
 
 ### H. User story complexity and size
 
