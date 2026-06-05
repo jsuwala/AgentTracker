@@ -15,6 +15,20 @@ You are an autonomous coding agent working on a software project.
 9. Update the PRD to set `passes: true` for the completed story
 10. Append your progress to `progress.txt`
 
+## Test Writing Policy
+
+All tests must align with this policy:
+- Only test externally observable behavior and stable contracts.
+- Do not assert private helpers, internal method calls, DOM structure, intermediate state, exact query shapes, or incidental logging unless they are the contract.
+- Only write a 1 or 2 high-signal tests.
+- Do not write tests that only cover narrow cases.
+- Reuse existing test helpers, fixtures, and patterns from this repo.
+- Only assert text when the text is user-facing AND is intentionally stable (encoded as a constant).
+- If a test would likely break during refactors without catching a real regression, do not write it.
+- Before writing tests, briefly state the contract being protected and the smallest test set needed.
+
+If a test does not conform to this policy, do not write it or delete it.
+
 ## Progress Report Format
 
 APPEND to progress.txt (never replace, always append):

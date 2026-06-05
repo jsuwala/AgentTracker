@@ -142,7 +142,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     # Claude Code: use --dangerously-skip-permissions for autonomous operation, --print for output
     CLAUDE_OUTPUT="$(claude --dangerously-skip-permissions --verbose --print < "$SCRIPT_DIR/prompt.md" 2>&1 | tee /dev/stderr || true)"
 
-    if grep -qi "hit your limit" <<< "$CLAUDE_OUTPUT"; then
+    if grep -Eqi "hit your (session )?limit" <<< "$CLAUDE_OUTPUT"; then
       if [[ "$ATTEMPT" -ge "$MAX_ATTEMPTS" ]]; then
         echo "Limit hit again after $MAX_ATTEMPTS attempts; continuing to next iteration."
         break
